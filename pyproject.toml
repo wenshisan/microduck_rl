@@ -100,10 +100,18 @@ better-actuator-models = { git = "https://github.com/Rhoban/bam.git", branch = "
 # CUDA via its nvidia-*-cu12 deps — that resolution is unchanged.
 torch = [
   { index = "pytorch-cu129", marker = "sys_platform == 'linux' and platform_machine == 'aarch64'" },
+  # Windows: PyPI's torch wheel is CPU-only here too, and cu129 has no 2.9.1
+  # win_amd64 wheel (only 2.8.0/2.9.0), so use cu128, which does.
+  { index = "pytorch-cu128", marker = "sys_platform == 'win32'" },
 ]
 
 [[tool.uv.index]]
 name = "pytorch-cu129"
 url = "https://download.pytorch.org/whl/cu129"
 # explicit: only packages that name this index resolve from it.
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
 explicit = true
